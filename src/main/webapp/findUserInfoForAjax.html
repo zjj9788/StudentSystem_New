@@ -31,10 +31,14 @@
         }
 
         function optionUserInfo() {
-          var btn_value=  $("#btnModal").html();
+            var btn_value = $("#btnModal").html();
 
-            if(btn_value=="添加"){
-                $.post("addUserInfo.do", {"uname": $("#uname").val(), "role": $("#role").val(),"runame": $("#runame").val()}, function (data) {
+            if (btn_value == "添加") {
+                $.post("addUserInfo.do", {
+                    "uname": $("#uname").val(),
+                    "role": $("#role").val(),
+                    "runame": $("#runame").val()
+                }, function (data) {
                     if (data == "true") {
                         layer.msg("添加记录成功！");
                         //alert("add success");
@@ -44,8 +48,7 @@
                         layer.msg("添加记录失败！");
                     }
                 });
-            }else
-            {
+            } else {
                 $.post("userServletForAjax", {"uname": $("#uname").val(), "role": $("#role").val()}, function (data) {
                     if (data == "true") {
                         layer.msg("添加记录成功！");
@@ -60,23 +63,23 @@
             $("#userInfoModal").modal("hide");
         }
 
-        function showUserInfoModal(id,data) {
-           // alert(JSON.stringify(data));
+        function showUserInfoModal(id, data) {
+            // alert(JSON.stringify(data));
             if (id == 0) {
                 $("#myModalLabel").html("更新用户信息");
                 $("#btnModal").html("更新");
                 //
                 $("#uname").val(data.uname);
                 $("#runame").val(data.runame);
-                $("#role").find("option[value='"+data.role+"']").attr("selected",true);
-              //  $("#row").val(data.role);
+                $("#role").find("option[value='" + data.role + "']").attr("selected", true);
+                //  $("#row").val(data.role);
                 //
             } else {
                 $("#myModalLabel").html("添加用户信息");
                 $("#btnModal").html("添加");
                 $("#uname").val("");
                 $("#runame").val("");
-                $("#role").find("option[value='-']").attr("selected",true);
+                $("#role").find("option[value='-']").attr("selected", true);
             }
             $("#userInfoModal").modal("show");
 
@@ -133,7 +136,7 @@
                         //alert(new Date(row.lastLoginTime).toLocaleString());
                         str += "<tr align='center'><td><input type='checkbox' value='" + row.id + "'></td><td>" + row.uname + "</td><td>" + row.runame + "</td><td>" + new Date(row.lastLoginTime).toLocaleString() + "</td><td>" + row.role + "</td><td>" +
                             "<a href='javascript:deleteUserById(\"" + row.id + "\")' title='删除' ><span class='glyphicon glyphicon-remove'></span></a> " +
-                            "<a href='javascript:showUserInfoModal(0,"+JSON.stringify(row)+")' title='更新'><span class='glyphicon glyphicon-save'></span> </a></td></tr>"
+                            "<a href='javascript:showUserInfoModal(0," + JSON.stringify(row) + ")' title='更新'><span class='glyphicon glyphicon-save'></span> </a></td></tr>"
                     });
                     $("#alluser").html(str);
                 },
@@ -150,25 +153,27 @@
     </script>
 </head>
 <body>
-<ul class="breadcrumb">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">用户管理</a></li>
-</ul>
-<h4 class="text-danger">用户信息管理</h4>
-<div class="panel panel-primary">
-    <div class="panel-footer">
-        <div class="form-inline">
-            <a href="javascript:showUserInfoModal(1,null)" class="btn btn-danger"><span
-                    class="glyphicon glyphicon-zoom-in"></span>
-                添加</a>
-            <select class="form-control" id="searchByRole" onchange="javascript:searchUserByRole()">
-                <option value="admin">管理员</option>
-                <option value="teacher">教师</option>
-                <option value="student">学生</option>
-            </select>
-        </div>
-    </div>
-    <div class="panel-body">
+<span class="layui-breadcrumb">
+  <a href="/">首页</a>
+  <a href="/demo/">演示</a>
+  <a><cite>导航元素</cite></a>
+</span>
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>用户信息管理</legend>
+</fieldset>
+<div class="layui-btn-group">
+    <button class="layui-btn" onclick="javascript:showUserInfoModal(1,null)">添加</button>
+    <button class="layui-btn ">编辑</button>
+    <button class="layui-btn">删除</button>
+</div>
+
+<select class="layui_input" id="searchByRole" onchange="javascript:searchUserByRole()">
+    <option value="admin">管理员</option>
+    <option value="teacher">教师</option>
+    <option value="student">学生</option>
+</select>
+
+
         <table class="layui-table" lay-size="sm">
             <tr align="center">
                 <td>全选</td>
@@ -183,8 +188,8 @@
             </tbody>
 
         </table>
-    </div>
-</div>
+
+
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -217,7 +222,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button  id="btnModal" type="button" class="btn btn-primary" onclick="optionUserInfo()">添加</button>
+                <button id="btnModal" type="button" class="btn btn-primary" onclick="optionUserInfo()">添加</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
